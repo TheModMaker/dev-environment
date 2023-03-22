@@ -1,0 +1,15 @@
+[alias]
+  slog = log -15 --oneline
+  aamend = commit -a --amend --no-edit
+  rreview = gerrit upload
+[color]
+  ui = auto
+[core]
+  editor = vi
+  excludesfile = {{BASE_DIR}}/gitignore.in
+[log]
+  mailmap = true
+[pull]
+  ff = only
+[push]
+  default = matching

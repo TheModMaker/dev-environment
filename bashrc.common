@@ -1,0 +1,76 @@
+# Copyright 2023 Jacob Trimble
+#
+# Licensed under the Apache License, Version 2.0 (the "License");
+# you may not use this file except in compliance with the License.
+# You may obtain a copy of the License at
+#
+#     http://www.apache.org/licenses/LICENSE-2.0
+#
+# Unless required by applicable law or agreed to in writing, software
+# distributed under the License is distributed on an "AS IS" BASIS,
+# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+# See the License for the specific language governing permissions and
+# limitations under the License.
+
+HISTCONTROL=ignoreboth      # Ignore duplicate bash history lines
+HISTFILESIZE=2000           # Number of lines in history file
+HISTSIZE=1000               # Number of commands to remember
+IGNOREEOF=3                 # Don't close for Ctrl-D at top-level
+
+DIFF='git diff --no-index'  # Default diff tool
+EDITOR=vim                  # Default text editor
+
+LANG=en_US.UTF-8            # Use English with UTF-8 encoding
+LC_ALL=$LANG
+
+shopt -s histappend         # Append to the history file, don't overwrite it
+shopt -s checkwinsize       # Update LINES and COLUMNS variables
+stty -ixon -ixoff           # Ignore Ctrl-s/Ctrl-q
+ulimit -c 67108864          # Increase corefile limit to 64MB
+
+# Make less more friendly for non-text input files, see lesspipe(1)
+[ -x /usr/bin/lesspipe ] && eval "$(SHELL=/bin/sh lesspipe)"
+
+function __print_prompt_info() {
+  local ret=$?
+  local dir=$( dirname -- $( readlink -f "${BASH_SOURCE[0]}" ) )
+  python3 "$dir/scripts/prompt_info.py"
+  return $ret
+}
+PROMPT_COMMAND=__print_prompt_info
+
+function __get_ps1() {
+  local GREEN='\[\033[01;32m\]'
+  local CYAN='\[\033[01;36m\]'
+  local BLUE='\[\033[01;34m\]'
+  local RESET='\[\033[00m\]'
+
+  local PREFIX='${TEMP_NAME:+($TEMP_NAME)}'
+  local X='\$'
+  echo "${PREFIX}${GREEN}\u${RESET}${X}: "
+}
+PS1=$(__get_ps1)
+
+# Enable color support of ls and also add handy aliases
+if [ -x /usr/bin/dircolors ]; then
+  test -r ~/.dircolors && eval "$(dircolors -b ~/.dircolors)" || eval "$(dircolors -b)"
+  alias ls='ls --color=auto'
+  alias grep='grep --color=auto'
+  alias fgrep='fgrep --color=auto'
+  alias egrep='egrep --color=auto'
+fi
+
+alias ll='ls -alF'
+alias la='ls -A'
+alias l='ls -CF'
+
+# Enable programmable completion features (you don't need to enable
+# this, if it's already enabled in /etc/bash.bashrc and /etc/profile
+# sources /etc/bash.bashrc).
+if ! shopt -oq posix; then
+  if [ -f /usr/share/bash-completion/bash_completion ]; then
+    . /usr/share/bash-completion/bash_completion
+  elif [ -f /etc/bash_completion ]; then
+    . /etc/bash_completion
+  fi
+fi
