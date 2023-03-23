@@ -35,13 +35,13 @@ function handle_template() {
     fi
   fi
 }
-# This file can be edited for other paths, info; most code is in bashrc.common
-handle_template copy "$THIS_DIR/bashrc.in" "$HOME/.bashrc"
 # This file is edited by git for local changes
 handle_template copy "$THIS_DIR/gitconfig.in" "$HOME/.gitconfig"
-# These can be linked since they probably won't change
+# These files can be customized; most code is in imported from files here
+handle_template copy "$THIS_DIR/bashrc.in" "$HOME/.bashrc"
+handle_template copy "$THIS_DIR/vimrc.in2" "$HOME/.vimrc"
+# This can be linked since they probably won't change
 handle_template link "$THIS_DIR/tmux.conf.in" "$HOME/.tmux.conf"
-handle_template link "$THIS_DIR/vimrc.in" "$HOME/.vimrc"
 
 # Install deps
 if which apt >/dev/null; then
