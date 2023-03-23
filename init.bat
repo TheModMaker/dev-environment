@@ -26,6 +26,9 @@ for %%a in (autoload,swap,backup) do (
 call :handle_template "%THIS_DIR%/gitconfig.in" "%userprofile%/.gitconfig"
 call :handle_template "%THIS_DIR%/vimrc.in" "%VIMDIR%/init.vim"
 
+:: Windows-specific, override the editor to use neovim instead
+git config --global core.editor nvim
+
 :: Install deps
 winget install Neovim.Neovim
 
