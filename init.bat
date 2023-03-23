@@ -28,6 +28,8 @@ call :handle_template "%THIS_DIR%/vimrc.in" "%VIMDIR%/init.vim"
 
 :: Windows-specific, override the editor to use neovim instead
 git config --global core.editor nvim
+:: Setup OpenSSH (1Password in my case) for ssh
+git config --global core.sshCommand "C:/Windows/System32/OpenSSH/ssh.exe"
 
 :: Install deps
 winget install Neovim.Neovim
