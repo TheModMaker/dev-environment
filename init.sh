@@ -39,7 +39,7 @@ function handle_template() {
 handle_template copy "$THIS_DIR/gitconfig.in" "$HOME/.gitconfig"
 # These files can be customized; most code is in imported from files here
 handle_template copy "$THIS_DIR/bashrc.in" "$HOME/.bashrc"
-handle_template copy "$THIS_DIR/vimrc.in2" "$HOME/.vimrc"
+handle_template copy "$THIS_DIR/vimrc.in" "$HOME/.vimrc"
 # This can be linked since they probably won't change
 handle_template link "$THIS_DIR/tmux.conf.in" "$HOME/.tmux.conf"
 

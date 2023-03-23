@@ -24,7 +24,7 @@ for %%a in (autoload,swap,backup) do (
 
 :: Copy over config files
 call :handle_template "%THIS_DIR%/gitconfig.in" "%userprofile%/.gitconfig"
-call :handle_template "%THIS_DIR%/vimrc.in2" "%VIMDIR%/init.vim"
+call :handle_template "%THIS_DIR%/vimrc.in" "%VIMDIR%/init.vim"
 
 :: Install deps
 winget install Neovim.Neovim
